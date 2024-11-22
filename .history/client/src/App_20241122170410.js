@@ -7,8 +7,8 @@ function App() {
                 <div className="card-header">
                     <h1>App</h1>
                 </div>
-                <div className="card-body">
-                    <table className="table table-hover">
+                <div>
+                    <table>
                         <thead>
                             <tr>
                                 <th scope="col">№</th>

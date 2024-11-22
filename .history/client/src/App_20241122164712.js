@@ -1,14 +1,15 @@
 import "./App.css";
+import bootstrap from "bootstrap";
 
 function App() {
     return (
-        <div className="container mt-5">
-            <div className=" card">
-                <div className="card-header">
+        <div>
+            <div>
+                <div>
                     <h1>App</h1>
                 </div>
-                <div className="card-body">
-                    <table className="table table-hover">
+                <div>
+                    <table>
                         <thead>
                             <tr>
                                 <th scope="col">№</th>

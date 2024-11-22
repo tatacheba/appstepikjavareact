@@ -8,7 +8,7 @@ function App() {
                     <h1>App</h1>
                 </div>
                 <div className="card-body">
-                    <table className="table table-hover">
+                    <table>
                         <thead>
                             <tr>
                                 <th scope="col">№</th>
