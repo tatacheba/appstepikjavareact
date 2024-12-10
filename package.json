@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "quokka-treasure-chest": "^1.0.3",
     "react-input-mask": "^2.0.4"
   }
 }
