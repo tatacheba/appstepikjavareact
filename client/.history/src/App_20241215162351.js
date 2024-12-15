@@ -1,5 +1,5 @@
 import "./App.css";
-import TablewView from "./layouts/components/tableView/TablewView";
+import TablewView from "./layouts/tableView/TablewView";
 import { useEffect, useState } from "react";
 import FormNewItem from "./layouts/formNewItem/FormNewItem";
 import ModalDeleteContact from "./layouts/components/ModalDeleteContact";
@@ -49,9 +49,10 @@ function App() {
             });
     };
 
-    const onToggleModal = (id = null) => {
-        setIsModalOpen((prev) => !prev);
+    const confirmDeleteContact = (id) => {
+        console.log("Attempting to delete contact with ID:", id); // Отладка
         setCurrentContactId(id);
+        setIsModalOpen(true);
     };
 
     const removeContact = () => {
@@ -59,7 +60,7 @@ function App() {
             console.error("No contact ID to delete");
             return;
         }
-        const url = `http://localhost:8080/api/contacts/${currentContactId}`;
+        const url = http://localhost:8080/api/contacts/${currentContactId};
         axios
             .delete(url)
             .then(() => {
@@ -68,8 +69,14 @@ function App() {
             })
             .catch((error) => console.error("Error deleting contact:", error))
             .finally(() => {
-                onToggleModal(); // Закрыть модальное окно
+                setIsModalOpen(false);
+                setCurrentContactId(null);
             });
+    };
+
+    const cancelDelete = () => {
+        setIsModalOpen(false);
+        setCurrentContactId(null);
     };
 
     return (
@@ -81,7 +88,7 @@ function App() {
                 <div className="card-body">
                     <TablewView
                         data={items}
-                        removeContact={onToggleModal} // Передаём функцию открытия модального окна
+                        removeContact={confirmDeleteContact}
                     />
                     <FormNewItem
                         appContact={appendContact}
@@ -91,8 +98,8 @@ function App() {
             </div>
             <ModalDeleteContact
                 isOpen={isModalOpen}
-                onModal={removeContact} // Удаляем контакт
-                onCancel={() => onToggleModal(false)} // Закрыть модальное окно
+                onModal={removeContact}
+                onCancel={cancelDelete}
             />
         </div>
     );

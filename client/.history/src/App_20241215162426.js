@@ -1,5 +1,5 @@
 import "./App.css";
-import TablewView from "./layouts/components/tableView/TablewView";
+import TablewView from "./layouts/tableView/TablewView";
 import { useEffect, useState } from "react";
 import FormNewItem from "./layouts/formNewItem/FormNewItem";
 import ModalDeleteContact from "./layouts/components/ModalDeleteContact";
@@ -92,7 +92,7 @@ function App() {
             <ModalDeleteContact
                 isOpen={isModalOpen}
                 onModal={removeContact} // Удаляем контакт
-                onCancel={() => onToggleModal(false)} // Закрыть модальное окно
+                onCancel={() => onToggleModal()} // Закрыть модальное окно
             />
         </div>
     );

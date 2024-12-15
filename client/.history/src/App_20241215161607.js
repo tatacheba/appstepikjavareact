@@ -92,7 +92,7 @@ function App() {
             <ModalDeleteContact
                 isOpen={isModalOpen}
                 onModal={removeContact} // Удаляем контакт
-                onCancel={() => onToggleModal(false)} // Закрыть модальное окно
+                onCancel={() => onToggleModal()} // Закрыть модальное окно
             />
         </div>
     );
