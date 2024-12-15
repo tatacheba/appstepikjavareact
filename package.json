@@ -1,0 +1,9 @@
+{
+    "name": "contactapp",
+    "homepage": "https://tatacheba.github.io/appstepikjavareact",
+    "dependencies": {
+        "@vercel/postgres": "^0.10.0",
+        "bootstrap": "^5.3.3",
+        "react-input-mask": "^2.0.4"
+    }
+}
