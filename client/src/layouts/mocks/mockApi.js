@@ -12,7 +12,11 @@ export const getContacts = () => {
 export const addContact = (contact) => {
     return new Promise((resolve) => {
         setTimeout(() => {
-            const newContact = { id: Date.now(), ...contact };
+            const maxId =
+                contacts.length > 0
+                    ? Math.max(...contacts.map((c) => c.id + 1))
+                    : 0;
+            const newContact = { id: maxId, ...contact };
             contacts.push(newContact);
             resolve(newContact);
         }, 500);

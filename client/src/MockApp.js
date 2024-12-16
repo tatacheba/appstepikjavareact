@@ -3,9 +3,13 @@ import TablewView from "./layouts/components/tableView/TablewView";
 import { useEffect, useState } from "react";
 import FormNewItem from "./layouts/components/formNewItem/FormNewItem";
 import ModalDeleteContact from "./layouts/components/ModalDeleteContact";
-import axios from "axios";
+import {
+    getContacts,
+    addContact,
+    deleteContact,
+} from "./layouts/mocks/mockApi";
 
-function App() {
+function MockApp() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,15 +17,8 @@ function App() {
 
     useEffect(() => {
         console.log("Fetching contacts...");
-        axios
-            .get("http://localhost:8080/api/contacts")
-            .then((res) => {
-                const data = res.data._embedded.contacts.map((item) => ({
-                    id: item.id,
-                    fullName: item.fullName,
-                    phone: item.phone,
-                    notes: item.notes,
-                }));
+        getContacts()
+            .then((data) => {
                 setItems(data);
                 console.log("Contacts loaded:", data);
             })
@@ -29,24 +26,11 @@ function App() {
     }, []);
 
     const appendContact = (fullName, phone, notes) => {
-        const contact = {
-            fullName,
-            phone,
-            notes,
-        };
-
-        const url = "http://localhost:8080/api/contacts";
-        setLoading(true); // Включить индикатор загрузки
-        axios
-            .post(url, contact)
-            .then((res) => {
-                contact.id = res.data.id;
-                setItems([...items, contact]);
-            })
+        const contact = { fullName, phone, notes };
+        setLoading(true);
+        addContact(contact)
             .catch((error) => console.error("Error adding contact:", error))
-            .finally(() => {
-                setLoading(false); // Выключить индикатор загрузки
-            });
+            .finally(() => setLoading(false));
     };
 
     const onToggleModal = (id = null) => {
@@ -59,19 +43,14 @@ function App() {
             console.error("No contact ID to delete");
             return;
         }
-        const url = `http://localhost:8080/api/contacts/${currentContactId}`;
-        axios
-            .delete(url)
+        deleteContact(currentContactId)
             .then(() => {
                 setItems(items.filter((item) => item.id !== currentContactId));
                 console.log("Contact deleted with ID:", currentContactId);
             })
             .catch((error) => console.error("Error deleting contact:", error))
-            .finally(() => {
-                onToggleModal(); // Закрыть модальное окно
-            });
+            .finally(() => onToggleModal());
     };
-
     return (
         <div className="container mt-5">
             <div className="card">
@@ -98,4 +77,4 @@ function App() {
     );
 }
 
-export default App;
+export default MockApp;
