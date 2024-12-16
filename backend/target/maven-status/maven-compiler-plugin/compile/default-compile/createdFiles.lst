@@ -1,0 +1,5 @@
+myProject\contactapp\dao\ContactRepository.class
+myProject\contactapp\ContactappApplication.class
+myProject\contactapp\entity\Contact.class
+myProject\contactapp\env\SettingApp.class
+myProject\contactapp\config\CorsConfig.class

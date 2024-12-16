@@ -26,7 +26,7 @@ yarn-error.log*
 
 # springboot
 HELP.md
-target/
+# target/a
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

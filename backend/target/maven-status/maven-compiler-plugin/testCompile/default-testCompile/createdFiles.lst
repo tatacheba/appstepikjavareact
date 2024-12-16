@@ -1,0 +1,3 @@
+myProject\contactapp\ContactappApplicationTests.class
+myProject\contactapp\database\ContactDatabaseTest.class
+myProject\contactapp\integration\ContactRepositoryTest.class
