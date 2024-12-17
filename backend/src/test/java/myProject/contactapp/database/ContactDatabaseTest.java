@@ -1,45 +1,52 @@
 package myProject.contactapp.database;
 
+import io.qameta.allure.*;
 import myProject.contactapp.entity.Contact;
-
 import myProject.contactapp.dao.ContactRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.rest.core.annotation.Description;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
+
 @SpringBootTest
-@Testcontainers
+@Epic("Тестирование базы данных")
+@Feature("Контакты")
+  @DisplayName("Database Test")
 class ContactDatabaseTest {
 
     @Autowired
     private ContactRepository contactRepository;
 
-  @SuppressWarnings("resource")
-  @Container
-
-    private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.33")//conection database
-        .withDatabaseName("contacts_app")
-        .withUsername("root")
-        .withPassword("1");
-
-    static {
-        mysql.start();
+    @Test
+    @Story("Сохранение нового контакта")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Добавление строки в базу данных и проверка сохраненного контакта")
+    @DisplayName("Тест: Сохранение контакта в базу данных")
+    void testDatabaseConnection() {
+        // Вызов шагов для Allure
+        Contact contact = createContact();
+        Contact savedContact = saveContact(contact);
+        verifySavedContact(savedContact, contact);
     }
 
-    @Test
-      @Description("Database container for testing, add row and check it")
-    void testDatabaseConnection() {
-      Contact contact = new Contact(0, "Test User", "test@example.com", "123456789");
+    @Step("Создаем новый контакт")
+    private Contact createContact() {
+        return new Contact(0, "Test User", "test@example.com", "123456789");
+    }
 
-        Contact savedContact = contactRepository.save(contact);
+    @Step("Сохраняем контакт в базу данных")
+    private Contact saveContact(Contact contact) {
+        return contactRepository.save(contact);
+    }
 
-        assertNotNull(savedContact.getId());
-        assertEquals("Test User", savedContact.getFullName());
+    @Step("Проверяем сохраненные данные контакта")
+    private void verifySavedContact(Contact savedContact, Contact originalContact) {
+        assertNotNull(savedContact.getId(), "Идентификатор контакта не должен быть null");
+        assertEquals(originalContact.getFullName(), savedContact.getFullName(), "Имя контакта не совпадает");
+        assertEquals(originalContact.getNotes(), savedContact.getNotes(), "Notes не совпадает");
+        assertEquals(originalContact.getPhone(), savedContact.getPhone(), "Номер телефона контакта не совпадает");
     }
 }

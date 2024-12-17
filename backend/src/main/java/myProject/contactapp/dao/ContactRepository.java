@@ -5,4 +5,3 @@ import myProject.contactapp.entity.Contact;
 
 public interface ContactRepository 
   extends JpaRepository<Contact, Long> {}
-  

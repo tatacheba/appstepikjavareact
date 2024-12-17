@@ -10,11 +10,11 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentContactId, setCurrentContactId] = useState(null);
-
+    const HOST = process.env.REACT_APP_HOST;
     useEffect(() => {
         console.log("Fetching contacts...");
         axios
-            .get("http://localhost:8080/api/contacts")
+            .get(`${HOST}api/contacts`)
             .then((res) => {
                 const data = res.data._embedded.contacts.map((item) => ({
                     id: item.id,
@@ -26,7 +26,7 @@ function App() {
                 console.log("Contacts loaded:", data);
             })
             .catch((error) => console.error("Error fetching contacts:", error));
-    }, []);
+    }, [HOST]);
 
     const appendContact = (fullName, phone, notes) => {
         const contact = {
@@ -35,7 +35,7 @@ function App() {
             notes,
         };
 
-        const url = "http://localhost:8080/api/contacts";
+        const url = `${HOST}api/contacts`;
         setLoading(true); // Включить индикатор загрузки
         axios
             .post(url, contact)
@@ -59,7 +59,7 @@ function App() {
             console.error("No contact ID to delete");
             return;
         }
-        const url = `http://localhost:8080/api/contacts/${currentContactId}`;
+        const url = `${HOST}/api/contacts/${currentContactId}`;
         axios
             .delete(url)
             .then(() => {
