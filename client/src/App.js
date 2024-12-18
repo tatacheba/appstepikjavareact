@@ -81,7 +81,7 @@ function App() {
         <div className="container mt-5">
             <div className="card">
                 <div className="card-header">
-                    <h1>App</h1>
+                    <h1>Contact App</h1>
                 </div>
                 <div className="card-body">
                     <TablewView
