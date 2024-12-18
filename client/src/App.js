@@ -12,20 +12,39 @@ function App() {
     const [currentContactId, setCurrentContactId] = useState(null);
     const HOST = process.env.REACT_APP_HOST;
     useEffect(() => {
-        console.log("Fetching contacts...");
-        axios
-            .get(`${HOST}api/contacts`)
-            .then((res) => {
-                const data = res.data._embedded.contacts.map((item) => ({
+        const fetchContacts = async () => {
+            setLoading(true);
+            console.log(
+                `[${new Date().toISOString()}] Начало загрузки контактов с HOST: ${HOST}`
+            );
+
+            try {
+                const response = await axios.get(`${HOST}/api/contacts`);
+                const data = response.data._embedded.contacts.map((item) => ({
                     id: item.id,
                     fullName: item.fullName,
                     phone: item.phone,
                     notes: item.notes,
                 }));
                 setItems(data);
-                console.log("Contacts loaded:", data);
-            })
-            .catch((error) => console.error("Error fetching contacts:", error));
+                console.log(
+                    `[${new Date().toISOString()}] Контакты успешно загружены:`,
+                    data
+                );
+            } catch (error) {
+                console.error(
+                    `[${new Date().toISOString()}] Ошибка при загрузке контактов:`,
+                    error
+                );
+            } finally {
+                setLoading(false);
+                console.log(
+                    `[${new Date().toISOString()}] Завершена загрузка контактов.`
+                );
+            }
+        };
+
+        fetchContacts();
     }, [HOST]);
 
     const appendContact = (fullName, phone, notes) => {
@@ -35,7 +54,7 @@ function App() {
             notes,
         };
 
-        const url = `${HOST}api/contacts`;
+        const url = `${HOST}/api/contacts`;
         setLoading(true); // Включить индикатор загрузки
         axios
             .post(url, contact)
